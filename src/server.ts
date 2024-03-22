@@ -16,18 +16,10 @@ app.use(cookieParser())
 
 
 
-// app.post("/register", (req: Request, res: Response) => {
-//   console.log(req.body)
-//   res.send("Express + TypeScript Server " +req.body);
-// });
-
 app.use("/",userRouter)
 // app.use("/admin",adminRoute)
 // app.use("/instructor",instructorRoute)
 
-// app.use("/",(req:Request,res:Response)=>{
-
-// })
 
 
   app.listen(port, () => {

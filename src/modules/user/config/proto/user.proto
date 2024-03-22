@@ -1,8 +1,8 @@
 syntax = "proto3";
-package user_package;
 
-service User{
-    rpc Register(RegisterRequest) returns(RegisterResponse) {};
+
+service UserService {
+    rpc Register (RegisterRequest) returns (RegisterResponse) {};
 
   }
 
@@ -13,3 +13,5 @@ message RegisterRequest{
     string avatar=4;
     string role=5;
 }
+
+message RegisterResponse{}
