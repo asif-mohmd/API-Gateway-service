@@ -14,4 +14,8 @@ message RegisterRequest{
     string role=5;
 }
 
-message RegisterResponse{}
+
+message RegisterResponse{
+    string msg = 1;
+    int32 status = 2;
+}

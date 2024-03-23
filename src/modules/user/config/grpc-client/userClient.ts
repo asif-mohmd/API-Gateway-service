@@ -17,7 +17,7 @@ const packageDefinition = protoLoader.loadSync(path.join(__dirname,"../proto/use
 });
 
 const UserService = grpc.loadPackageDefinition(packageDefinition).UserService as grpc.ServiceClientConstructor;
-// as grpc.ServiceClientConstructor
+// as grpc.ServiceClientConstructor : it is need because of typescript
 
 const UserClient = new UserService(
     `0.0.0.0:${process.env.USER_GRPC_PORT}`,
