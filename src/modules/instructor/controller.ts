@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { UserClient } from "./config/grpc-client/userClient";
+import { InstructorClient } from "./config/grpc-client/instructorClient";
 
 export const register = (req: Request, res: Response, next: NextFunction) => {
-  UserClient.Register(req.body.formData, (err: Error, result: any) => {
+    InstructorClient.Register(req.body.formData, (err: Error, result: any) => {
     console.log(result, "jkkghuighjksadfssfsfsfsfsfsfsfsfsfsfsfslssssBiu");
-    let userData = req.body.formData;
-    console.log(userData);
+    let instructorData = req.body.formData;
+    console.log(instructorData);
     if (err) {
       res.status(401).json({ message: err });
       console.log("err in API gateway");
@@ -13,7 +13,7 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
       console.log("----", result, "----------------");
       if (result.registerStatus) {
         console.log("woreking")
-        res.cookie("userData", userData, {
+        res.cookie("instructorData", instructorData, {
           httpOnly: true,
         });
         return true;
@@ -27,10 +27,10 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
-  UserClient.Login(req.body.loginData, (err: Error, result: any) => {
-    const userData = req.cookies.userData;
+    InstructorClient.Login(req.body.loginData, (err: Error, result: any) => {
+    const instructorData = req.cookies.userData;
     console.log(req.cookies)
-    console.log("login side",userData);
+    console.log("login side",instructorData);
     if (err) {
       res.status(401).json({ message: err });
       console.log("err in login API Gateway");
