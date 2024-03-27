@@ -13,7 +13,7 @@ message User {
 service UserService {
     rpc Register (RegisterRequest) returns (RegisterResponse) {};
     rpc Login (LoginRequest) returns (LoginResponse) {};
-    // rpc ActivateUser (ActivateRequest) returns (ActivateResponse) {};
+    rpc ActivateUser (ActivateRequest) returns (ActivateResponse) {};
 
 }
 
@@ -21,14 +21,30 @@ message RegisterRequest {
     string name = 1;
     string email = 2;
     string password = 3;
-
 }
+
+
+message ActivateRequest{
+    string name = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message ActivateResponse{
+    bool status = 1;
+}
+
+message Token {
+    string token = 1;
+}
+
 
 message RegisterResponse {
     string msg = 1;
     bool registerStatus = 2;
-   
+    Token userData = 3;
 }
+
 
 message LoginRequest{
     string email = 1;

@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 
 
 app.use(express.json())
-app.use(cors({ credentials: true }));
+app.use(cors({credentials: true}));
 app.use(cookieParser())
 
 
@@ -21,6 +21,7 @@ app.use(cookieParser())
 app.use("/",userRouter)
 app.use("/admin",adminRoute)
 app.use("/instructor",instructorRoute)
+
 
 
 
