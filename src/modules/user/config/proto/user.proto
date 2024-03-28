@@ -14,7 +14,18 @@ service UserService {
     rpc Register (RegisterRequest) returns (RegisterResponse) {};
     rpc Login (LoginRequest) returns (LoginResponse) {};
     rpc ActivateUser (ActivateRequest) returns (ActivateResponse) {};
+    rpc ForgotPassword (ForgotRequest) returns (ForgotResponse) {};
 
+}
+
+message ForgotRequest{
+    string email = 1;
+    string password = 2;
+}
+
+message ForgotResponse{
+    bool forgotPasswordStatus = 1;
+    Token forgotData = 2;
 }
 
 message RegisterRequest {

@@ -18,13 +18,15 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
         res.cookie("userData", result.userData,{
           httpOnly:true
         });
-      
-        res.json({ "status": true });
+      let status = true
+        res.json({ status });
 
       } else {
         console.log("errror",result);
+        let status = false
+
         // Assuming successful registration, use appropriate status code (e.g., 200)
-        res.json({"status":false});
+        res.json({status});
 
       }
     }
@@ -39,6 +41,8 @@ export const otp =  (req: Request, res: Response, next: NextFunction) => {
   console.log(userData,"userdata;;;;;;;;;;;;;;;;")
 
   const decoded : any = jwt.verify(userData.token, process.env.JWT_SECRET || "")
+  console.log("decoded", decoded)
+
   console.log("first", decoded.activationCode)
   if(req.body.otp ===  decoded.activationCode){
     console.log(decoded.userData,"decddddddddddddddddddddddddddddddd")
@@ -49,11 +53,12 @@ export const otp =  (req: Request, res: Response, next: NextFunction) => {
         res.status(401).json({ message: err });
         console.log("err in login API Gateway");
       } else {
-        console.log("else caseee otp");
-        if(result.registerStatus){
+        console.log("else caseee otp",result);
+        if(result.status){
           console.log("------", result, "-----------");
-          res.status(201).json({status:true});
+          res.status(200).json({status:true});
         }else{
+          console.log("----------------------")
           res.status(401).json({status:false});
         }
     
@@ -66,6 +71,7 @@ export const otp =  (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.body.loginData,"login in api gatewqay")
   UserClient.Login(req.body.loginData, (err: Error, result: any) => {
     const userData = req.cookies.userData;
     console.log(req.cookies.userData)
@@ -77,6 +83,27 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
       console.log("else caseee loginnnn");
       console.log("------", result, "-----------");
       res.status(201).json(result);
+    }
+  });
+};
+
+export const forgotPassword = (req: Request, res: Response, next: NextFunction) => {
+  console.log("forgot:",req.body.forgotData)
+  UserClient.ForgotPassword(req.body.forgotData, (err: Error, result: any) => {
+   
+ 
+    console.log("forgot side",req.body.forgotData);
+    if (err) {
+      res.status(401).json({ message: err });
+      console.log("err in login API Gateway");
+    } else {
+      console.log("else caseee loginnnn");
+      console.log("------", result, "-----------");
+   
+      // res.cookie("forgotData", forgotData,{
+      //   httpOnly:true
+      // });
+      // res.status(201).json(result.forgotPasswordStatus);
     }
   });
 };
