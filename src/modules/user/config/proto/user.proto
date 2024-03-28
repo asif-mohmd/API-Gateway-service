@@ -15,10 +15,20 @@ service UserService {
     rpc Login (LoginRequest) returns (LoginResponse) {};
     rpc ActivateUser (ActivateRequest) returns (ActivateResponse) {};
     rpc ForgotPassword (ForgotRequest) returns (ForgotResponse) {};
+    rpc PasswordUpdate(PasswordUpdateRequest) returns (PasswordUpdateResponse) {}
 
 }
 
-message ForgotRequest{
+message PasswordUpdateRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message PasswordUpdateResponse {
+    bool passwordUpdate = 1 ;
+}
+
+message ForgotRequest {
     string email = 1;
     string password = 2;
 }

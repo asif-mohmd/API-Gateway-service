@@ -64,10 +64,10 @@ export const otp =  (req: Request, res: Response, next: NextFunction) => {
     
       }
     });
+  }else{
+    res.json({status:false})
   }
 
-
-  
 };
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
@@ -100,10 +100,53 @@ export const forgotPassword = (req: Request, res: Response, next: NextFunction) 
       console.log("else caseee loginnnn");
       console.log("------", result, "-----------");
    
-      // res.cookie("forgotData", forgotData,{
-      //   httpOnly:true
-      // });
-      // res.status(201).json(result.forgotPasswordStatus);
+      res.cookie("forgotData",  result.forgotData,{
+        httpOnly:true
+      });
+      res.status(201).json(result.forgotPasswordStatus);
     }
   });
+};
+
+
+export const forgotOtp =  (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.body.otp,"-------------------")
+
+  const userData = req.cookies.forgotData;
+
+  console.log(userData,"userdata;;;;;;;;;;;;;;;;")
+
+  const decoded : any = jwt.verify(userData.token, process.env.JWT_SECRET || "")
+  console.log("decoded", decoded)
+
+  console.log("first", decoded.activationCode)
+  if(req.body.otp ===  decoded.activationCode){
+    console.log(decoded.userData,"decddddddddddddddddddddddddddddddd")
+    let userData = {
+     email :  decoded.userData.email,
+     password : decoded.userData.password
+    }
+    console.log(userData,"qwertyyuu")
+    UserClient.PasswordUpdate(userData, (err: Error, result: any) => {
+      console.log(req.body.otp,"-------------------")
+  
+      if (err) {
+        res.status(401).json({ message: err });
+        console.log("err in login API Gateway");
+      } else {
+        console.log("else caseee otp",result);
+        if(result.passwordUpdate){
+          console.log("------", result, "-----------");
+          res.status(200).json({status:true});
+        }else{
+          console.log("----------------------")
+          res.status(401).json({status:false});
+        }
+    
+      }
+    });
+  }else{
+    res.json({status:false})
+  }
+
 };
