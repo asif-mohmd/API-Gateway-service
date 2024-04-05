@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from "express"; // Import Request and Response types
 import express, { Application } from "express";
 import { forgotOtp, forgotPassword, login, otp, register } from "./controller";
 

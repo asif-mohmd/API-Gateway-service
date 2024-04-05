@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+
+service AuthService {
+//     rpc Register (RegisterRequest) returns (RegisterResponse) {};
+
+
+}
+
+// message PasswordUpdateRequest {
+  
+// }
