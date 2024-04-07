@@ -2,11 +2,13 @@ syntax = "proto3";
 
 
 service AuthService {
-//     rpc Register (RegisterRequest) returns (RegisterResponse) {};
-
-
+    rpc TokenRequest (TokenRequest) returns (TokenResponse) {};
 }
 
-// message PasswordUpdateRequest {
-  
-// }
+message TokenRequest {
+    string token = 1;
+}
+
+message TokenResponse {
+    bool status = 1;
+}

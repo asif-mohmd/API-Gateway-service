@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { UserClient } from "./config/grpc-client/userClient";
-import { status } from "@grpc/grpc-js";
 import jwt from "jsonwebtoken";
 
 export const register = (req: Request, res: Response, next: NextFunction) => {
@@ -9,6 +8,7 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
       res.status(401).json({ message: err });
     } else {
       if (result.registerStatus) {
+        
         res.cookie("userData", result.userData, {
           httpOnly: true,
         });
@@ -41,6 +41,7 @@ export const otp = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
+  console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii")
   UserClient.Login(req.body.loginData, (err: Error, result: any) => {
     const userData = req.cookies.userData;
     if (err) {

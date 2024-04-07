@@ -4,7 +4,7 @@ syntax = "proto3";
 service InstructorService{
     rpc Register (RegisterRequest) returns (RegisterResponse) {};
     rpc Login (LoginRequest) returns (LoginResponse) {};
-    // rpc ActivateUser (ActivateRequest) returns (ActivateResponse) {};
+    rpc ActivateInstructor (ActivateRequest) returns (ActivateResponse) {};
 
   }
 
@@ -19,6 +19,7 @@ message RegisterRequest{
 message RegisterResponse {
     string msg = 1;
     bool registerStatus = 2;
+    Token instructorData = 3;
   
 }
 
@@ -31,6 +32,18 @@ message LoginResponse{
     string msg = 1;
     int32 status = 2;
     bool loginStatus = 3;
+}
 
+message Token {
+    string token = 1;
+}
 
+message ActivateRequest{
+    string name = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message ActivateResponse{
+    bool status = 1;
 }
