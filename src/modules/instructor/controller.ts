@@ -11,6 +11,8 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
     } else {
       console.log("----", result, "----------------");
       if (result.registerStatus) {
+        console.log(result.instructorData,"instructtttttDatatatatatat")
+
         res.cookie("instructorData", result.instructorData, {
           httpOnly: true,
         });
@@ -39,7 +41,7 @@ export const otp = (req: Request, res: Response, next: NextFunction) => {
       }
     });
   } else {
-    res.json({ status: false });
+    res.status(401).json({ status: false });
   }
 };
 

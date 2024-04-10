@@ -8,7 +8,7 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
       res.status(401).json({ message: err });
     } else {
       if (result.registerStatus) {
-        
+        console.log("userrrrrrr",result.userData)
         res.cookie("userData", result.userData, {
           httpOnly: true,
         });
@@ -22,6 +22,7 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
 
 export const otp = (req: Request, res: Response, next: NextFunction) => {
   const userData = req.cookies.userData;
+  
   const decoded: any = jwt.verify(userData.token, process.env.JWT_SECRET || "");
   if (req.body.otp === decoded.activationCode) {
     UserClient.ActivateUser(decoded.userData, (err: Error, result: any) => {
@@ -36,7 +37,7 @@ export const otp = (req: Request, res: Response, next: NextFunction) => {
       }
     });
   } else {
-    res.json({ status: false });
+    res.status(401).json({ status: false });
   }
 };
 

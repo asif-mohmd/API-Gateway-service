@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AdminClient } from "./config/grpc-client/adminClient";
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
+  console.log("admioneeeeeeeeeeeeeeeee")
   AdminClient.Login(req.body.loginData, (err: Error, result: any) => {
     const adminData = req.cookies.userData;
     console.log(req.cookies)
