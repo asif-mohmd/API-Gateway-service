@@ -31,7 +31,8 @@ message LoginRequest{
 message LoginResponse{
     string msg = 1;
     int32 status = 2;
-    bool loginStatus = 3;
+    string activationToken = 3;
+    bool loginStatus = 4;
 }
 
 message Token {

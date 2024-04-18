@@ -1,10 +1,10 @@
 {
   "name": "api-gateway",
   "version": "1.0.0",
-  "main": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "build": "npx tsc && npm run generate-proto",
-    "start": "node dist/server.js",
+    "build": "npx tsc && cp -r node_modules dist/",
+    "start": "node src/server.ts",
     "dev": "nodemon src/server.ts"
   },
   "author": "",
