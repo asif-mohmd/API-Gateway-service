@@ -1,12 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 import { InstructorClient } from "./config/grpc-client/instructorClient";
 import jwt from "jsonwebtoken"
+import { StatusCode } from "../../interfaces/enums";
 
-export const register = (req: Request, res: Response, next: NextFunction) => {
+
+export default class InstructorController {
+
+
+
+register = (req: Request, res: Response, next: NextFunction) => {
   console.log("rehgiiiiiiiiiiiiiiii")
     InstructorClient.Register(req.body.formData, (err: Error, result: any) => {
     if (err) {
-      res.status(401).json({ message: err });
+      res.status(StatusCode.Unauthorized).json({ message: err });
       console.log("err in API gateway");
     } else {
       console.log("----", result, "----------------");
@@ -24,19 +30,19 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const otp = (req: Request, res: Response, next: NextFunction) => {
+ otp = (req: Request, res: Response, next: NextFunction) => {
   const instructorData = req.cookies.instructorData;
   console.log(instructorData)
   const decoded: any = jwt.verify(instructorData.token, process.env.JWT_SECRET || "");
   if (req.body.otp === decoded.activationCode) {
     InstructorClient.ActivateInstructor(decoded.instructorData, (err: Error, result: any) => {
       if (err) {
-        res.status(401).json({ message: err });
+        res.status(StatusCode.Unauthorized).json({ message: err });
       } else {
         if (result.status) {
-          res.status(200).json({ status: true });
+          res.status(StatusCode.OK).json({ status: true });
         } else {
-          res.status(401).json({ status: false });
+          res.status(StatusCode.Unauthorized).json({ status: false });
         }
       }
     });
@@ -45,7 +51,7 @@ export const otp = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export const login = (req: Request, res: Response, next: NextFunction) => {
+ login = (req: Request, res: Response, next: NextFunction) => {
   console.log(req.body.instructorLoginData,"------------------------------")
     InstructorClient.Login(req.body.instructorLoginData, (err: Error, result: any) => {
     const instructorData = req.cookies.instructorData;
@@ -54,12 +60,14 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
 
     console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
     if (err) {
-      res.status(401).json({ message: err });
+      res.status(StatusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");
     } else {
       console.log("else caseee loginnnn");
       console.log("------", result, "-----------");
-      res.status(201).json(result);
+      res.status(StatusCode.OK).json(result);
     }
   });
 };
+
+}

@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./modules/user/route";
 import instructorRoute from "./modules/instructor/route";
 import adminRoute from "./modules/admin/route";
+import courseRoute from "./modules/courses/route";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/admin", adminRoute);
 app.use("/instructor", instructorRoute);
+app.use("/course", courseRoute);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

@@ -1,15 +1,16 @@
 import express, { Application } from "express";
-import { forgotOtp, forgotPassword, login, otp, register } from "./controller";
+import UserController from "./controller";
 
 const userRoute: Application = express();
 
 userRoute.use(express.json()); // Add this line if you want to parse JSON request bodies
+const controller = new UserController();
 
-userRoute.post("/register", register);
-userRoute.post('/login',login)
-userRoute.post("/otp",otp)
+userRoute.post("/register", controller.register);
+userRoute.post("/login", controller.login);
+userRoute.post("/otp", controller.otp);
 
-userRoute.post("/forgotpassword",forgotPassword)
-userRoute.post("/forgototp",forgotOtp)
+userRoute.post("/forgotpassword", controller.forgotPassword);
+userRoute.post("/forgototp", controller.forgotOtp);
 
 export default userRoute;

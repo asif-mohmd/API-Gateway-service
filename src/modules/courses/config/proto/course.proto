@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+service CourseService {
+    rpc CreateCourse (CreateCourseRequest) returns (CreateCourseResponse) {};
+}
+
+message CreateCourseRequest {
+    string courseName = 1;
+    string courseDescription = 2;
+    int64 coursePrice = 3;
+    int64 estimatedPrice = 4;
+   string courseTags = 5;
+    string totalVideos = 6;
+    string courseLevel = 7;
+    string demoURL = 8;
+    repeated string benefits = 9;
+    repeated string prerequisites = 10;
+}
+
+message CreateCourseResponse {
+    // Define any response fields here if needed
+}
