@@ -7,8 +7,8 @@ import jwt from "jsonwebtoken";
 export default class courseController {
   createCourse = (req: Request, res: Response, next: NextFunction) => {
 
-    const loginData = req.cookies.loginData;
-    const decoded: any = jwt.verify(loginData, process.env.JWT_SECRET || "");
+    const instructorData = req.cookies.instructorData;
+    const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
 
     // Creating a new object with existing properties of values and instructorId
     const updatedValues = {
@@ -33,9 +33,9 @@ export default class courseController {
 
   listCourse = (req: Request, res: Response, next: NextFunction) => {
     console.log("list course herererer")
-    const loginData = req.cookies.loginData;
-    console.log(loginData,"insIddd")
-    const decoded: any = jwt.verify(loginData, process.env.JWT_SECRET || "");
+    const instructorData = req.cookies.instructorData;
+    console.log(instructorData,"insIddd")
+    const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
     const instructorId = decoded.instructorId
 
     const updatedValues = {
