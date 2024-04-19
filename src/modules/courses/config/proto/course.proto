@@ -2,6 +2,27 @@ syntax = "proto3";
 
 service CourseService {
     rpc CreateCourse (CreateCourseRequest) returns (CreateCourseResponse) {};
+    rpc ListCourse (ListCourseRequest) returns (ListCourseResponse) {};
+    rpc GetCourseDetails (CourseDetailsRequest) returns (CourseDetailsResponse) {};
+    rpc EditCourseDetails (EditCourseRequest) returns (EditCourseResponse) {}
+}
+
+message EditCourseRequest {
+    string courseName = 1;
+    string courseDescription = 2;
+    int64 coursePrice = 3;
+    int64 estimatedPrice = 4;
+    string courseTags = 5;
+    string totalVideos = 6;
+    string courseLevel = 7;
+    string demoURL = 8;
+    repeated string benefits = 9;
+    repeated string prerequisites = 10;
+    string courseId = 11;
+}
+
+message EditCourseResponse {
+    bool courseStatus = 1;
 }
 
 message CreateCourseRequest {
@@ -15,8 +36,43 @@ message CreateCourseRequest {
     string demoURL = 8;
     repeated string benefits = 9;
     repeated string prerequisites = 10;
+    string instructorId = 11;
 }
 
 message CreateCourseResponse {
-    // Define any response fields here if needed
+    bool courseStatus = 1;
 }
+
+message ListCourseRequest {
+   string instructorId = 1;
+}
+
+message ListCourseResponse {
+    repeated Course courses = 1;
+    bool courseStatus = 2;
+}
+
+message CourseDetailsRequest {
+    string courseId = 1;
+}
+
+message CourseDetailsResponse {
+    Course courseDetails = 1;
+    bool courseStatus = 2;
+}
+
+message Course {
+    string id = 1;
+    string instructorId = 2;
+    string courseName = 3;
+    string courseDescription = 4;
+    string coursePrice = 5;
+    string estimatedPrice = 6;
+    string courseTags = 7;
+    string totalVideos = 8;
+    string courseLevel = 9;
+    string demoURL = 10;
+    repeated string benefits = 11;
+    repeated string prerequisites = 12;
+}
+

@@ -12,5 +12,9 @@ adminRoute.use(express.json()); // Add this line if you want to parse JSON reque
 
 
 adminRoute.post('/login',controller.login)
+adminRoute.get('/get-all-users',controller.getAllUsers)
+adminRoute.get("/get-all-instructors",controller.getAllInstructors)
+adminRoute.patch("/user-block-unblock",controller.userBlockUnblock)
+adminRoute.patch("/instructor-block-unblock",controller.instructorBlockUnblock)
 
 export default adminRoute;

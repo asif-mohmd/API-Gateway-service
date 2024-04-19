@@ -54,16 +54,15 @@ register = (req: Request, res: Response, next: NextFunction) => {
  login = (req: Request, res: Response, next: NextFunction) => {
   console.log(req.body.instructorLoginData,"------------------------------")
     InstructorClient.Login(req.body.instructorLoginData, (err: Error, result: any) => {
-    const instructorData = req.cookies.instructorData;
-    console.log(req.cookies)
-    console.log("login side",instructorData);
-
+  
     console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
     if (err) {
       res.status(StatusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");
     } else {
-      console.log("else caseee loginnnn");
+      res.cookie("instructorData", result.activationToken, {
+        httpOnly: true,
+      });
       console.log("------", result, "-----------");
       res.status(StatusCode.OK).json(result);
     }

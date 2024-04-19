@@ -5,8 +5,18 @@ service InstructorService{
     rpc Register (RegisterRequest) returns (RegisterResponse) {};
     rpc Login (LoginRequest) returns (LoginResponse) {};
     rpc ActivateInstructor (ActivateRequest) returns (ActivateResponse) {};
+    rpc GetAllInstructors (GetAllInstructorsRequest) returns (GetAllInstructorsResponse) {};
+    rpc InstructorBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {}
+}
 
-  }
+message BlockUnblockRequest{
+    string id = 1;
+    bool isVerified = 2;
+}
+
+message BlockUnblockResponse{
+    bool instructorStatus = 1;
+}
 
 message RegisterRequest{
     string name=1;
@@ -47,4 +57,21 @@ message ActivateRequest{
 
 message ActivateResponse{
     bool status = 1;
+}
+
+message GetAllInstructorsRequest {
+    
+}
+
+message GetAllInstructorsResponse {
+    repeated GetInstructors instructors = 1;
+}
+
+message GetInstructors {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    bool isVerified = 4;
+    repeated string courses = 5;
+    
 }

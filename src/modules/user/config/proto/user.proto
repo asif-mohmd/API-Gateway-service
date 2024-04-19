@@ -15,8 +15,18 @@ service UserService {
     rpc Login (LoginRequest) returns (LoginResponse) {};
     rpc ActivateUser (ActivateRequest) returns (ActivateResponse) {};
     rpc ForgotPassword (ForgotRequest) returns (ForgotResponse) {};
-    rpc PasswordUpdate(PasswordUpdateRequest) returns (PasswordUpdateResponse) {}
+    rpc PasswordUpdate(PasswordUpdateRequest) returns (PasswordUpdateResponse) {};
+    rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse) {};
+    rpc UserBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {}
+}
 
+message BlockUnblockRequest{
+    string id = 1;
+    bool isVerified = 2;
+}
+
+message BlockUnblockResponse{
+    bool userStatus = 1;
 }
 
 message PasswordUpdateRequest {
@@ -75,7 +85,23 @@ message LoginRequest{
 message LoginResponse{
     string msg = 1;
     int32 status = 2;
-    bool loginStatus = 3;
+    string activationToken = 3;
+    bool loginStatus = 4;
+}
 
+message GetAllUsersRequest {
+    
+}
 
+message GetAllUsersResponse {
+    repeated GetUsers users = 1;
+}
+
+message GetUsers {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    bool isVerified = 4;
+    repeated string courses = 5;
+    
 }

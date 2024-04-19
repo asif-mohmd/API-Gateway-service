@@ -50,9 +50,14 @@ export default class UserController {
     console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
     UserClient.Login(req.body.loginData, (err: Error, result: any) => {
       const userData = req.cookies.userData;
+      console.log(result,"ggggggggggggggggggggggggggg",result.activationToken)
+      
       if (err) {
         res.status(StatusCode.Unauthorized).json({ message: err });
       } else {
+        res.cookie("userData", result.activationToken, {
+          httpOnly: true,
+        });
         res.status(StatusCode.OK).json(result);
       }
     });
