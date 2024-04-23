@@ -1,10 +1,37 @@
-// const amqp = require('amqplib')
+const amqp = require('amqplib')
+const config = require("./config")
+class Producer {
+    channel:any;
 
-// class Producer{
-//     channel;
+    async createChannel() {
+        const connection = await amqp.connect(config.rabbitMQ.url)
+        this.channel = await connection.createChannel();
+    }
 
-//     async createChannel() {
-//         const connection = await amqp.connect(config.rabbitMQ.url)
-//     }
+    async publishMessage(routingkey:any, message:any) {
+        if (!this.channel) {
+            await this.createChannel()
+        }
 
-// }
+        const exchangeName = config.rabbitMQ.exchangeName;
+        await this.channel.assertExchange(exchangeName, "direct");
+
+        const logDetails = {
+            logType: routingkey,
+            message: message,
+            dateTime: new DataTransfer()
+        }
+
+        await this.channel.publish(
+            exchangeName, 
+            routingkey,
+            Buffer.from(JSON.stringify({logDetails}))
+        )
+
+        console.log(`The message ${message} is sent to exchange ${exchangeName}`)
+
+    }
+
+}
+
+module.exports = Producer;
