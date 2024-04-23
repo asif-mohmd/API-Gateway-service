@@ -86,8 +86,34 @@ export default class courseController {
   editCourseDetails= (req: Request, res: Response, next: NextFunction) => {
     
     console.log(req.body.courseData,"oooooooooopppppppppppppppppp")
-
     CourseClient.EditCourseDetails(req.body.courseData, (err: Error, result: any) => {
+      if (err) {
+        res.status(StatusCode.Unauthorized).json({ message: err });
+        console.log("err in API gateway");
+      } else {
+        console.log("----", result, "----------------");
+        if (result.courseStatus) {
+          res.status(StatusCode.OK).json({ courseDetails: result });
+        } else {
+          res.status(StatusCode.Unauthorized).json({ courseData :false  });
+        }
+      }
+    })
+
+  }
+
+
+  addLessonContent= (req: Request, res: Response, next: NextFunction) => {
+    
+    let lesson = req.body.lessons
+
+    console.log(lesson)
+
+
+
+
+    
+    CourseClient.AddLessonContent(lesson, (err: Error, result: any) => {
       if (err) {
         res.status(StatusCode.Unauthorized).json({ message: err });
         console.log("err in API gateway");

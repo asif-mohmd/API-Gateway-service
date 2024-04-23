@@ -69,4 +69,30 @@ register = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
+profile= (req: Request, res: Response, next: NextFunction) => {
+  console.log("list course herererer")
+  const instructorData = req.cookies.instructorData;
+  console.log(instructorData,"insIddd")
+  const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
+  const instructorId = decoded.instructorId
+
+  const updatedValues = {
+    instructorId: decoded.instructorId,
+  };
+
+  console.log(updatedValues)
+    InstructorClient.Profile(updatedValues, (err: Error, result: any) => {
+  
+    console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
+    if (err) {
+      res.status(StatusCode.Unauthorized).json({ message: err });
+      console.log("err in login API Gateway");
+    } else {
+      
+      console.log("------", result, "-----------");
+      res.status(StatusCode.OK).json(result);
+    }
+  });
+};
+
 }

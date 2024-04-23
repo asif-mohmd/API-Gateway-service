@@ -6,7 +6,17 @@ service InstructorService{
     rpc Login (LoginRequest) returns (LoginResponse) {};
     rpc ActivateInstructor (ActivateRequest) returns (ActivateResponse) {};
     rpc GetAllInstructors (GetAllInstructorsRequest) returns (GetAllInstructorsResponse) {};
-    rpc InstructorBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {}
+    rpc InstructorBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {};
+    rpc Profile (ProflePageRequest) returns (ProfilePageResponse) {};
+}
+
+message ProflePageRequest{
+    string instructorId = 1;
+}
+
+message ProfilePageResponse{
+    string name = 1;
+    string email = 2;
 }
 
 message BlockUnblockRequest{

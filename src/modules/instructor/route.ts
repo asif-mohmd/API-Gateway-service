@@ -11,6 +11,7 @@ instructorRoute.use(express.json()); // Add this line if you want to parse JSON 
 instructorRoute.post("/register", controller.register);
 instructorRoute.post("/login", controller.login);
 instructorRoute.post("/otp", controller.otp);
+instructorRoute.get("/profile/page",controller.profile)
 
 
 
