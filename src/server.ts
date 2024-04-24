@@ -7,6 +7,10 @@ import instructorRoute from "./modules/instructor/route";
 import adminRoute from "./modules/admin/route";
 import courseRoute from "./modules/courses/route";
 
+import RabbitMQClient from "./rabbitMQ/client";
+
+
+
 dotenv.config();
 
 const app: Express = express();
@@ -34,7 +38,13 @@ app.use("/", userRouter);
 app.use("/admin", adminRoute);
 app.use("/instructor", instructorRoute);
 app.use("/course", courseRoute);
+// app.post("/operate",async(req,res,next)=>{
+//   console.log(req.body)
+//  const response =  await RabbitMQClient.produce(req.body)
+//  res.send({response})
+// })
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
+  RabbitMQClient.initialize()
 });

@@ -4,7 +4,37 @@ import { StatusCode } from "../../interfaces/enums";
 import { CourseClient } from "./config/grpc-client/courseClient";
 import jwt from "jsonwebtoken";
 
+import RabbitMQClient from "../../rabbitMQ/client"
+
+
 export default class courseController {
+
+  
+
+  addLessonContent=  async (req: Request, res: Response, next: NextFunction) => {
+
+    console.log(';;;;;;;;;;;;;;;')
+
+    const operation = "add-lesson-content"
+
+    const courseId = req.body.courseId
+    const lessonContents = req.body.lessons
+
+    const courseData = {
+      courseId,  
+      lessonContents
+    }
+    console.log(courseData,';;;;;;;;;;;;;;;')
+  
+    
+    const response =  await RabbitMQClient.produce(courseData,operation)
+    console.log(response,"kkkkkkkkkkkkkkkkkkkkkkkkkkk")
+     res.send({response})
+  } 
+   
+         
+  
+ 
   createCourse = (req: Request, res: Response, next: NextFunction) => {
 
     const instructorData = req.cookies.instructorData;
@@ -101,34 +131,6 @@ export default class courseController {
     })
 
   }
-
-
-  addLessonContent= (req: Request, res: Response, next: NextFunction) => {
-    
-    let lesson = req.body.lessons
-
-    console.log(lesson)
-
-
-
-
-    
-    CourseClient.AddLessonContent(lesson, (err: Error, result: any) => {
-      if (err) {
-        res.status(StatusCode.Unauthorized).json({ message: err });
-        console.log("err in API gateway");
-      } else {
-        console.log("----", result, "----------------");
-        if (result.courseStatus) {
-          res.status(StatusCode.OK).json({ courseDetails: result });
-        } else {
-          res.status(StatusCode.Unauthorized).json({ courseData :false  });
-        }
-      }
-    })
-
-  }
-
 
 
 }
