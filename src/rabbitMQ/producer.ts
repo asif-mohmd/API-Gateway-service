@@ -4,9 +4,9 @@ import { randomUUID } from "crypto";
 import { EventEmitter } from "events";
 
 export default class Producer {
-    constructor(private channel: Channel, private replayQueueName: string, private eventEmitter: EventEmitter) { }
+    constructor(private channel: Channel, private replayQueueName: string,private eventEmitter:EventEmitter) { }
 
-    async produceMessages(data: any, operation: string) {
+    async produceMessages(data: any,operation:string) {
 
         const uuid = randomUUID()
         console.log("the correlation id is :", uuid)
@@ -15,23 +15,20 @@ export default class Producer {
         this.channel.sendToQueue(config.rabbitMQ.queues.rpcQueue, Buffer.from(JSON.stringify(data)), {
             replyTo: this.replayQueueName,
             correlationId: uuid,
-            expiration: 10,
-            headers: {
+            expiration:10,
+            headers:{
                 function: operation
             }
         })
 
-        return new Promise((resolve, reject) => {
-            this.eventEmitter.once(uuid, async (data) => {
-
+        return new Promise((resolve,reject)=>{
+            this.eventEmitter.once(uuid,async(data)=>{
+                console.log(JSON.parse(data.content.toString()))
                 const reply = JSON.parse(data.content.toString())
-                const jsonString = Buffer.from(reply.data).toString('utf-8');
-                const replyObject = JSON.parse(jsonString);
-                console.log(replyObject);
-                resolve(replyObject);
+                resolve(reply);
             })
         })
-
+      
 
     }
 }

@@ -12,11 +12,7 @@ export default class courseController {
   
 
   addLessonContent=  async (req: Request, res: Response, next: NextFunction) => {
-
-    console.log(';;;;;;;;;;;;;;;')
-
     const operation = "add-lesson-content"
-
     const courseId = req.body.courseId
     const lessonContents = req.body.lessons
 
@@ -24,16 +20,14 @@ export default class courseController {
       courseId,  
       lessonContents
     }
-    console.log(courseData,';;;;;;;;;;;;;;;')
-  
-    
     const response =  await RabbitMQClient.produce(courseData,operation)
-    console.log(response,"kkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
      res.send({response})
   } 
+
    
-         
-  
+          
+    
  
   createCourse = (req: Request, res: Response, next: NextFunction) => {
 
