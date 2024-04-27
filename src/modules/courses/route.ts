@@ -12,7 +12,7 @@ courseRoute.post("/create-course",controller.createCourse );
 courseRoute.get("/list-course" ,controller.listCourse );
 courseRoute.get("/get-course-details/:id",controller.getCourseDetails)
 courseRoute.put("/edit-course",controller.editCourseDetails)
-courseRoute.post("/add-lesson-content",controller.addLessonContent)
+// courseRoute.post("/add-lesson-content",controller.addLessonContent)
 
 
 
