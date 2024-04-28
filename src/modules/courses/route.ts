@@ -8,11 +8,10 @@ const courseRoute: Application = express();
 
 courseRoute.use(express.json()); // Add this line if you want to parse JSON request bodies
 
-courseRoute.post("/create-course",controller.createCourse );
+courseRoute.post("/create-edit-course",controller.createCourse );
 courseRoute.get("/list-course" ,controller.listCourse );
 courseRoute.get("/get-course-details/:id",controller.getCourseDetails)
-courseRoute.put("/edit-course",controller.editCourseDetails)
-// courseRoute.post("/add-lesson-content",controller.addLessonContent)
+courseRoute.post("/delete/course",controller.deleteCourse)
 
 
 
