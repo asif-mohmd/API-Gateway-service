@@ -7,6 +7,26 @@ import { InstructorClient } from "../instructor/config/grpc-client/instructorCli
 export default class AdminController {
 
 
+  addCategory= (req: Request, res: Response, next: NextFunction) => {
+    console.log("admioneeeeeeeeeeeeeeeee",req.body)
+    const category = req.body.categoryName
+    AdminClient.AddCategory(req.body, (err: Error, result: any) => {
+ 
+      if (err) {
+        res.status(StatusCode.Unauthorized).json(result);
+        console.log("err in login API Gateway");
+      } else {
+        console.log("=====",result,"]]]]]]]]]]]]]]]]]]]]]")
+  
+        console.log("else caseee loginnnn");
+        console.log("------", result, "-----------");
+        res.status(StatusCode.OK).json(result)
+      }
+    });
+  }; 
+     
+
+ 
  login = (req: Request, res: Response, next: NextFunction) => {
   console.log("admioneeeeeeeeeeeeeeeee",req.body)
   AdminClient.Login(req.body.adminLoginData, (err: Error, result: any) => {
@@ -57,24 +77,24 @@ getAllInstructors= (req: Request, res: Response, next: NextFunction) => {
 };
 
 userBlockUnblock= (req: Request, res: Response, next: NextFunction) => {
-  console.log("admioneeeeeeeeeeeeeeeee",req.body)
-  UserClient.UserBlockUnblock(req.body.userBlockUnblock, (err: Error, result: any) => {
+  console.log(req.body.userBlockUnblock,"admioneeeeeeeeeeeeeeeee",req.body)
+  UserClient.UserBlockUnblock(req.body, (err: Error, result: any) => {
  
     if (err) {
       res.status(StatusCode.Unauthorized).json(result);
       console.log("err in login API Gateway");
     } else {
- 
+  
       console.log("------", result, "-----------");
       res.status(StatusCode.OK).json(result)
     }
   });
-};
-
+}; 
+  
 instructorBlockUnblock=(req: Request, res: Response, next: NextFunction) => {
   console.log("admioneeeeeeeeeeeeeeeee",req.body)
   InstructorClient.InstructorBlockUnblock(req.body.instructorBlockUnblock, (err: Error, result: any) => {
- 
+  
     if (err) {
       res.status(StatusCode.Unauthorized).json(result);
       console.log("err in login API Gateway");

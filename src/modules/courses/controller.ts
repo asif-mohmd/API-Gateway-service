@@ -3,31 +3,77 @@ import { Request, Response, NextFunction } from "express";
 import { StatusCode } from "../../interfaces/enums";
 import { CourseClient } from "./config/grpc-client/courseClient";
 import jwt from "jsonwebtoken";
-
+import fs from 'fs';
 import RabbitMQClient from "../../rabbitMQ/client"
+import util from "util"
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { s3 } from "../../config/s3Config";
+import crypto from "crypto"
 
+
+interface S3Params {
+  Bucket: string;
+  Key: string;
+  Body: any;
+  ContentType: any;
+}
 
 export default class courseController {
 
 
 
   createCourse = async (req: Request, res: Response, next: NextFunction) => {
-    const operation = "create-edit-course"
-    const courseDetails = req.body.courseDetails
-    const lessonContents = req.body.lessons
-    const instructorData = req.cookies.instructorData;
-    const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
 
+    console.log(req.file,"---------------------------------------")
+    const file = req.file
+
+    if(file){
+      let url = "";
+      const randomName = (bytes = 32) =>
+        crypto.randomBytes(bytes).toString("hex");
+      const bucketName = process.env.S3_BUCKET_NAME || "";
+      const imageName = `geniusGrid-course-thumbnail/${randomName()}`;
+
+      const params: S3Params = {
+        Bucket: bucketName,
+        Key: imageName,
+        Body: file?.buffer,
+        ContentType: file?.mimetype,
+      };
+
+      const command = new PutObjectCommand(params);
+      await s3.send(command);
+      url = `https://transcode-genius.s3.ap-south-1.amazonaws.com/${imageName}`;
+
+      const operation = "create-edit-course"
+    const courseDetails = req.body
+    const instructorData = req.cookies.instructorData;
+    
+
+ 
+    const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
+ 
+ 
+    // Convert the image buffer to a Base64 encoded string
+    courseDetails.thumbnail = url
+  console.log("===============",courseDetails,"===================")
     const courseData = {
 
       instructorId: decoded.instructorId,
       courseDetails,
-      lessonContents
+     
+     
     }
+
+    console.log("//////////////////",courseData.courseDetails.lessons)
     const response = await RabbitMQClient.produce(courseData, operation)
 
     res.send({ response })
+    }
+
+    
   }
+   
 
   getLessonsContents = async (req: Request, res: Response, next: NextFunction) => {
     const operation = "get-lessons-contents"
@@ -82,7 +128,15 @@ export default class courseController {
 
   }
 
-  
+
+  getAllUserCourse = async (req: Request, res: Response, next: NextFunction) => {
+
+    const operation = "get-all-user-courses"
+    console.log("api gate get user course")
+    const response = await RabbitMQClient.produce(null, operation)
+    console.log(response,"-------============----------------")
+    res.send({ response })
+  }
 
 
 }

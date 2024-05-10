@@ -17,7 +17,7 @@ service UserService {
     rpc ForgotPassword (ForgotRequest) returns (ForgotResponse) {};
     rpc PasswordUpdate(PasswordUpdateRequest) returns (PasswordUpdateResponse) {};
     rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse) {};
-    rpc UserBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {}
+    rpc UserBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {};
 }
 
 message BlockUnblockRequest{

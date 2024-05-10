@@ -97,5 +97,6 @@ message Course {
     string demoURL = 10;
     repeated string benefits = 11;
     repeated string prerequisites = 12;
+    string thumbnail = 13;
 }
 
