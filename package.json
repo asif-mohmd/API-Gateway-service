@@ -20,6 +20,7 @@
     "@types/nodemailer": "^6.4.14",
     "amqp-ts": "^1.8.0",
     "amqplib": "^0.10.4",
+    "asif-status-codes-package": "^1.0.0",
     "aws": "^0.0.3-2",
     "aws-sdk": "^2.1617.0",
     "cookie-parser": "^1.4.6",

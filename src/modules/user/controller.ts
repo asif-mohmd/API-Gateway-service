@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { UserClient } from "./config/grpc-client/userClient";
 import jwt from "jsonwebtoken";
-import { StatusCode } from "../../interfaces/enums";
-
+import {statusCode} from "asif-status-codes-package"
 export default class UserController {
   register = (req: Request, res: Response, next: NextFunction) => {
+
+    
     UserClient.Register(req.body.formData, (err: Error, result: any) => {
       if (err) {
-        res.status(StatusCode.Unauthorized).json({ message: err });
+        res.status(statusCode.Unauthorized).json({ message: err });
       } else {
         if (result.registerStatus) {
           console.log("userrrrrrr", result.userData);
@@ -32,33 +33,33 @@ export default class UserController {
     if (req.body.otp === decoded.activationCode) {
       UserClient.ActivateUser(decoded.userData, (err: Error, result: any) => {
         if (err) {
-          res.status(StatusCode.Unauthorized).json({ message: err });
+          res.status(statusCode.Unauthorized).json({ message: err });
         } else {
           if (result.status) {
-            res.status(StatusCode.OK).json({ status: true });
+            res.status(statusCode.OK).json({ status: true });
           } else {
-            res.status(StatusCode.Unauthorized).json({ status: false });
+            res.status(statusCode.Unauthorized).json({ status: false });
           }
         }
       });
     } else {
-      res.status(StatusCode.Unauthorized).json({ status: false });
+      res.status(statusCode.Unauthorized).json({ status: false });
     }
   };
 
   login = (req: Request, res: Response, next: NextFunction) => {
-    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii",statusCode.Accepted);
     UserClient.Login(req.body.loginData, (err: Error, result: any) => {
       const userData = req.cookies.userData;
       console.log(result,"ggggggggggggggggggggggggggg",result.activationToken)
       
       if (err) {
-        res.status(StatusCode.Unauthorized).json({ message: err });
+        res.status(statusCode.Unauthorized).json({ message: err });
       } else {
         res.cookie("userData", result.activationToken, {
           httpOnly: true,
         });
-        res.status(StatusCode.OK).json(result);
+        res.status(statusCode.OK).json(result);
       }
     });
   };
@@ -68,12 +69,12 @@ export default class UserController {
       req.body.forgotData,
       (err: Error, result: any) => {
         if (err) {
-          res.status(StatusCode.Unauthorized).json({ message: err });
+          res.status(statusCode.Unauthorized).json({ message: err });
         } else {
           res.cookie("forgotData", result.forgotData, {
             httpOnly: true,
           });
-          res.status(StatusCode.OK).json(result.forgotPasswordStatus);
+          res.status(statusCode.OK).json(result.forgotPasswordStatus);
         }
       }
     );
@@ -87,18 +88,18 @@ export default class UserController {
       process.env.JWT_SECRET || ""
     );
     if (req.body.otp === decoded.activationCode) {
-      let userData = {
+      const userData = {
         email: decoded.userData.email,
         password: decoded.userData.password,
       };
       UserClient.PasswordUpdate(userData, (err: Error, result: any) => {
         if (err) {
-          res.status(StatusCode.Unauthorized).json({ message: err });
+          res.status(statusCode.Unauthorized).json({ message: err });
         } else {
           if (result.passwordUpdate) {
-            res.status(StatusCode.OK).json({ status: true });
+            res.status(statusCode.OK).json({ status: true });
           } else {
-            res.status(StatusCode.Unauthorized).json({ status: false });
+            res.status(statusCode.Unauthorized).json({ status: false });
           }
         }
       });

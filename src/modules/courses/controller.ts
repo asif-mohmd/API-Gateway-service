@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-
-import { StatusCode } from "../../interfaces/enums";
+import { statusCode } from "asif-status-codes-package"
 import { CourseClient } from "./config/grpc-client/courseClient";
 import jwt from "jsonwebtoken";
 import fs from 'fs';
@@ -24,13 +23,19 @@ export default class courseController {
 
   createCourse = async (req: Request, res: Response, next: NextFunction) => {
 
-    console.log(req.file,"---------------------------------------")
     const file = req.file
+    let response
 
-    if(file){
+      const operation = "create-edit-course"
+      const courseDetails = req.body
+      const instructorData = req.cookies.instructorData;
+
+      const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
+
+    if (file) {
       let url = "";
       const randomName = (bytes = 32) =>
-        crypto.randomBytes(bytes).toString("hex");
+      crypto.randomBytes(bytes).toString("hex");
       const bucketName = process.env.S3_BUCKET_NAME || "";
       const imageName = `geniusGrid-course-thumbnail/${randomName()}`;
 
@@ -45,35 +50,26 @@ export default class courseController {
       await s3.send(command);
       url = `https://transcode-genius.s3.ap-south-1.amazonaws.com/${imageName}`;
 
-      const operation = "create-edit-course"
-    const courseDetails = req.body
-    const instructorData = req.cookies.instructorData;
-    
+      // Convert the image buffer to a Base64 encoded string
+      courseDetails.thumbnail = url
+      const courseData = {
+        instructorId: decoded.instructorId,
+        courseDetails,
+      }
+       response = await RabbitMQClient.produce(courseData, operation)
 
- 
-    const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
- 
- 
-    // Convert the image buffer to a Base64 encoded string
-    courseDetails.thumbnail = url
-  console.log("===============",courseDetails,"===================")
-    const courseData = {
+    }else{
+      const courseData = {
+        instructorId: decoded.instructorId,
+        courseDetails,
+      }
+       response = await RabbitMQClient.produce(courseData, operation)
 
-      instructorId: decoded.instructorId,
-      courseDetails,
-     
-     
     }
-
-    console.log("//////////////////",courseData.courseDetails.lessons)
-    const response = await RabbitMQClient.produce(courseData, operation)
-
     res.send({ response })
-    }
 
-    
   }
-   
+
 
   getLessonsContents = async (req: Request, res: Response, next: NextFunction) => {
     const operation = "get-lessons-contents"
@@ -88,14 +84,15 @@ export default class courseController {
     const operation = "get-course-details"
     const courseId = req.params.id
     const response = await RabbitMQClient.produce(courseId, operation)
+    console.log(response, "55555555555555555555555")
     res.send({ response })
 
   }
 
-  deleteCourse =  async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body,"idddddddddd course deleteeeeeee")
+  deleteCourse = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body, "idddddddddd course deleteeeeeee")
     const operation = "delete-course-details"
-    const response = await RabbitMQClient.produce(req.body.courseId,operation)
+    const response = await RabbitMQClient.produce(req.body.courseId, operation)
     res.send({ response })
 
   }
@@ -114,14 +111,14 @@ export default class courseController {
     console.log(updatedValues)
     CourseClient.ListCourse(updatedValues, (err: Error, result: any) => {
       if (err) {
-        res.status(StatusCode.Unauthorized).json({ message: err });
+        res.status(statusCode.Unauthorized).json({ message: err });
         console.log("err in API gateway");
       } else {
-       
+
         if (result.courseStatus) {
-          res.status(StatusCode.OK).json({ courseData: result });
+          res.status(statusCode.OK).json({ courseData: result });
         } else {
-          res.status(StatusCode.Unauthorized).json({ courseData: false });
+          res.status(statusCode.Unauthorized).json({ courseData: false });
         }
       }
     })
@@ -134,7 +131,7 @@ export default class courseController {
     const operation = "get-all-user-courses"
     console.log("api gate get user course")
     const response = await RabbitMQClient.produce(null, operation)
-    console.log(response,"-------============----------------")
+    console.log(response, "-------============----------------")
     res.send({ response })
   }
 

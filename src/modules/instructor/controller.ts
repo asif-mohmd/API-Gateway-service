@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { InstructorClient } from "./config/grpc-client/instructorClient";
 import jwt from "jsonwebtoken"
-import { StatusCode } from "../../interfaces/enums";
-
+import {statusCode} from "asif-status-codes-package"
 
 export default class InstructorController {
 
@@ -12,7 +11,7 @@ register = (req: Request, res: Response, next: NextFunction) => {
   console.log("rehgiiiiiiiiiiiiiiii")
     InstructorClient.Register(req.body.formData, (err: Error, result: any) => {
     if (err) {
-      res.status(StatusCode.Unauthorized).json({ message: err });
+      res.status(statusCode.Unauthorized).json({ message: err });
       console.log("err in API gateway");
     } else {
       console.log("----", result, "----------------");
@@ -37,12 +36,12 @@ register = (req: Request, res: Response, next: NextFunction) => {
   if (req.body.otp === decoded.activationCode) {
     InstructorClient.ActivateInstructor(decoded.instructorData, (err: Error, result: any) => {
       if (err) {
-        res.status(StatusCode.Unauthorized).json({ message: err });
+        res.status(statusCode.Unauthorized).json({ message: err });
       } else {
         if (result.status) {
-          res.status(StatusCode.OK).json({ status: true });
+          res.status(statusCode.OK).json({ status: true });
         } else {
-          res.status(StatusCode.Unauthorized).json({ status: false });
+          res.status(statusCode.Unauthorized).json({ status: false });
         }
       }
     });
@@ -57,14 +56,14 @@ register = (req: Request, res: Response, next: NextFunction) => {
   
     console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
     if (err) {
-      res.status(StatusCode.Unauthorized).json({ message: err });
+      res.status(statusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");
     } else {
       res.cookie("instructorData", result.activationToken, {
         httpOnly: true,
       });
       console.log("------", result, "-----------");
-      res.status(StatusCode.OK).json(result);
+      res.status(statusCode.OK).json(result);
     }
   });
 };
@@ -85,12 +84,12 @@ profile= (req: Request, res: Response, next: NextFunction) => {
   
     console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
     if (err) {
-      res.status(StatusCode.Unauthorized).json({ message: err });
+      res.status(statusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");
     } else {
       
       console.log("------", result, "-----------");
-      res.status(StatusCode.OK).json(result);
+      res.status(statusCode.OK).json(result);
     }
   });
 };
