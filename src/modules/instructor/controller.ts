@@ -8,7 +8,6 @@ export default class InstructorController {
 
 
 register = (req: Request, res: Response, next: NextFunction) => {
-  console.log("rehgiiiiiiiiiiiiiiii")
     InstructorClient.Register(req.body.formData, (err: Error, result: any) => {
     if (err) {
       res.status(statusCode.Unauthorized).json({ message: err });
@@ -16,7 +15,6 @@ register = (req: Request, res: Response, next: NextFunction) => {
     } else {
       console.log("----", result, "----------------");
       if (result.registerStatus) {
-        console.log(result.instructorData,"instructtttttDatatatatatat")
 
         res.cookie("instructorData", result.instructorData, {
           httpOnly: true,
@@ -31,7 +29,6 @@ register = (req: Request, res: Response, next: NextFunction) => {
 
  otp = (req: Request, res: Response, next: NextFunction) => {
   const instructorData = req.cookies.instructorData;
-  console.log(instructorData)
   const decoded: any = jwt.verify(instructorData.token, process.env.JWT_SECRET || "");
   if (req.body.otp === decoded.activationCode) {
     InstructorClient.ActivateInstructor(decoded.instructorData, (err: Error, result: any) => {
@@ -54,7 +51,6 @@ register = (req: Request, res: Response, next: NextFunction) => {
   console.log(req.body.instructorLoginData,"------------------------------")
     InstructorClient.Login(req.body.instructorLoginData, (err: Error, result: any) => {
   
-    console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
     if (err) {
       res.status(statusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");
@@ -62,16 +58,13 @@ register = (req: Request, res: Response, next: NextFunction) => {
       res.cookie("instructorData", result.activationToken, {
         httpOnly: true,
       });
-      console.log("------", result, "-----------");
       res.status(statusCode.OK).json(result);
     }
   });
 };
 
 profile= (req: Request, res: Response, next: NextFunction) => {
-  console.log("list course herererer")
   const instructorData = req.cookies.instructorData;
-  console.log(instructorData,"insIddd")
   const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
   const instructorId = decoded.instructorId
 
@@ -79,10 +72,8 @@ profile= (req: Request, res: Response, next: NextFunction) => {
     instructorId: decoded.instructorId,
   };
 
-  console.log(updatedValues)
     InstructorClient.Profile(updatedValues, (err: Error, result: any) => {
   
-    console.log("----------------- side",result,";;;;;;;;;;;;;;;;;;;;;;;;;;;");
     if (err) {
       res.status(statusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");

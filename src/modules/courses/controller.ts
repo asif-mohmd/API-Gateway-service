@@ -84,13 +84,11 @@ export default class courseController {
     const operation = "get-course-details"
     const courseId = req.params.id
     const response = await RabbitMQClient.produce(courseId, operation)
-    console.log(response, "55555555555555555555555")
     res.send({ response })
 
   }
 
   deleteCourse = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body, "idddddddddd course deleteeeeeee")
     const operation = "delete-course-details"
     const response = await RabbitMQClient.produce(req.body.courseId, operation)
     res.send({ response })
@@ -99,7 +97,6 @@ export default class courseController {
 
 
   listCourse = (req: Request, res: Response, next: NextFunction) => {
-    console.log("list course herererer")
     const instructorData = req.cookies.instructorData;
     const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
     const instructorId = decoded.instructorId
@@ -108,7 +105,6 @@ export default class courseController {
       instructorId: decoded.instructorId,
     };
 
-    console.log(updatedValues)
     CourseClient.ListCourse(updatedValues, (err: Error, result: any) => {
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
@@ -129,9 +125,7 @@ export default class courseController {
   getAllUserCourse = async (req: Request, res: Response, next: NextFunction) => {
 
     const operation = "get-all-user-courses"
-    console.log("api gate get user course")
     const response = await RabbitMQClient.produce(null, operation)
-    console.log(response, "-------============----------------")
     res.send({ response })
   }
 

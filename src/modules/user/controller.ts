@@ -2,11 +2,39 @@ import { Request, Response, NextFunction } from "express";
 import { UserClient } from "./config/grpc-client/userClient";
 import jwt from "jsonwebtoken";
 import {statusCode} from "asif-status-codes-package"
+import { format } from "path";
 export default class UserController {
-  register = (req: Request, res: Response, next: NextFunction) => {
 
-    
-    UserClient.Register(req.body.formData, (err: Error, result: any) => {
+
+
+  onGetUserDetails = (req: Request, res: Response, next: NextFunction) => {
+    console.log("ooooooooooooooo")
+    const userData = req.cookies.userData;
+    console.log(userData)
+    const decoded: any = jwt.verify(
+      userData,
+      process.env.JWT_SECRET || ""
+    );
+    const userId = decoded.userId
+    console.log(userId,"iiiiiioooooooooooooooooooooooo")
+
+    UserClient.GetUserDetails({userId}, (err: Error, result: any) => {
+      const userData = req.cookies.userData;
+      console.log(result,"ggggggggggggggggggggggggggg")
+      
+      if (err) {
+        res.status(statusCode.Unauthorized).json({ message: err });
+      } else {
+       console.log(result,"---------------------------")
+        res.status(statusCode.OK).json(result);
+      }
+    });
+  };
+
+
+  register = (req: Request, res: Response, next: NextFunction) => {
+    console.log("tttttttttttttttttttttttttt",req.body)
+    UserClient.Register(req.body, (err: Error, result: any) => {
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {

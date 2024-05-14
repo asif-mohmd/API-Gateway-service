@@ -13,4 +13,6 @@ userRoute.post("/otp", controller.otp);
 userRoute.post("/forgotpassword", controller.forgotPassword);
 userRoute.post("/forgototp", controller.forgotOtp);
 
+userRoute.get("/user/details",controller.onGetUserDetails)
+
 export default userRoute;
