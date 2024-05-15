@@ -1,5 +1,5 @@
 import { Channel } from "amqplib";
-import config from "../config/rabbitmqConfig";
+import config from "../../../config/rabbitmqConfig";
 import { randomUUID } from "crypto";
 import { EventEmitter } from "events";
 
@@ -12,7 +12,7 @@ export default class Producer {
         console.log("the correlation id is :", uuid)
 
 
-        this.channel.sendToQueue(config.rabbitMQ.queues.rpcQueue, Buffer.from(JSON.stringify(data)), {
+        this.channel.sendToQueue(config.rabbitMQ.queues.courseQueue, Buffer.from(JSON.stringify(data)), {
             replyTo: this.replayQueueName,
             correlationId: uuid,
             expiration:10,

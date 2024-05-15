@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { statusCode } from "asif-status-codes-package"
 import { CourseClient } from "./config/grpc-client/courseClient";
 import jwt from "jsonwebtoken";
-import fs from 'fs';
-import RabbitMQClient from "../../rabbitMQ/client"
-import util from "util"
+import RabbitMQClient from "./rabbitMQ/client"
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { s3 } from "../../config/s3Config";
 import crypto from "crypto"
@@ -76,7 +74,6 @@ export default class courseController {
     const instructorData = req.cookies.instructorData;
     const decoded: any = jwt.verify(instructorData, process.env.JWT_SECRET || "");
     const response = await RabbitMQClient.produce(decoded.instructorId, operation)
-    // console.log(response, "gete course=====------------===========")
     res.send({ response })
   }
 

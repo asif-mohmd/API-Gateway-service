@@ -2,7 +2,8 @@ export default {
     rabbitMQ:{
         url: "amqp://localhost",
         queues:{
-            rpcQueue: "rpc_queue"
+            courseQueue: "course_queue",
+            orderQueue: "order_queue"
         }
     }
 }

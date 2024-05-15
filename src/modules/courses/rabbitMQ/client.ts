@@ -1,5 +1,5 @@
 import { Connection ,connect , Channel } from "amqplib";
-import config from "../config/rabbitmqConfig"
+import config from "../../../config/rabbitmqConfig"
 import Consumer from "./consumer";
 import Producer from "./producer";
 import { EventEmitter } from "events";

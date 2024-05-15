@@ -7,8 +7,9 @@ import instructorRoute from "./modules/instructor/route";
 import adminRoute from "./modules/admin/route";
 import courseRoute from "./modules/courses/route";
 
-import RabbitMQClient from "./rabbitMQ/client";
+import RabbitMQClient from "./modules/courses/rabbitMQ/client";
 import bodyParser from "body-parser"
+import orderRoute from "./modules/order/route";
 
 
  
@@ -46,6 +47,7 @@ app.use("/", userRouter);
 app.use("/admin", adminRoute);
 app.use("/instructor", instructorRoute);
 app.use("/course", courseRoute);
+app.use("/order", orderRoute)
 
 
 app.listen(port, () => {
