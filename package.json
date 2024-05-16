@@ -23,6 +23,7 @@
     "asif-status-codes-package": "^1.0.0",
     "aws": "^0.0.3-2",
     "aws-sdk": "^2.1617.0",
+    "axios": "^1.7.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",

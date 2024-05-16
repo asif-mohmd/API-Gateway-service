@@ -1,14 +1,14 @@
-// import express, { Application } from "express";
-// import { isValidatedAdmin, isValidatedInstructor, isValidatedUser } from "./controllers";
+import express, { Application } from "express";
+import { isValidatedAdmin, isValidatedInstructor, isValidatedUser } from "./controllers";
 
-// const authRoute: Application = express();
+const authRoute: Application = express();
 
-// authRoute.use(express.json()); // Add this line if you want to parse JSON request bodies
-
-
-// authRoute.post('/isValidatedUser',isValidatedUser)
-// authRoute.post('/isValidatedInstructor',isValidatedInstructor)
-// authRoute.post('/isValidatedAdmin',isValidatedAdmin)
+authRoute.use(express.json()); // Add this line if you want to parse JSON request bodies
 
 
-// export default authRoute;
+authRoute.get('/isValidatedUser',isValidatedUser)
+authRoute.get('/isValidatedInstructor',isValidatedInstructor)
+authRoute.get('/isValidatedAdmin',isValidatedAdmin)
+
+
+export default authRoute;

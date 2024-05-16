@@ -106,4 +106,20 @@ instructorBlockUnblock=(req: Request, res: Response, next: NextFunction) => {
   });
 };
 
+getAllCategories =  (req: Request, res: Response, next: NextFunction) => {
+  console.log("jjjjjjjjjjjjjjjhhhhhhhhhhhhhhh")
+  AdminClient.GetAllCategories(null, (err: Error, result: any) => {
+ 
+    if (err) {
+      res.status(statusCode.Unauthorized).json(result);
+      console.log("err in login API Gateway");
+    } else {
+
+      console.log("------", result, "-----------");
+      res.status(statusCode.OK).json(result)
+    }
+  });
+};
+
+
 }

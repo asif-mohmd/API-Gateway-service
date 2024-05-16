@@ -10,7 +10,7 @@ export default class Producer {
 
         const uuid = randomUUID()
         console.log("the correlation id is :", uuid)
-
+ 
 
         this.channel.sendToQueue(config.rabbitMQ.queues.courseQueue, Buffer.from(JSON.stringify(data)), {
             replyTo: this.replayQueueName,

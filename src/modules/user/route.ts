@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import UserController from "./controller";
+import { isValidatedUser } from "../auth/controllers";
 
 const userRoute: Application = express();
 
@@ -13,7 +14,7 @@ userRoute.post("/otp", controller.otp);
 userRoute.post("/forgotpassword", controller.forgotPassword);
 userRoute.post("/forgototp", controller.forgotOtp);
 
-userRoute.get("/user/details",controller.onGetUserDetails)
+userRoute.get("/user/details",isValidatedUser,controller.onGetUserDetails)
 
 userRoute.post("/create/user/order",controller.createUserCourse)
 

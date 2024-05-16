@@ -117,7 +117,7 @@ export default class courseController {
     })
 
   }
-
+ 
 
   getAllUserCourse = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -125,6 +125,14 @@ export default class courseController {
     const response = await RabbitMQClient.produce(null, operation)
     res.send({ response })
   }
+
+  getUserPurchasedCourses= async (req: Request, res: Response, next: NextFunction) => {
+console.log("usereirueirueilur",req.body)
+    const operation = "get-user-purchased-courses"
+    const response = await RabbitMQClient.produce(req.body, operation)
+    console.log("ressssssssssssssss",response)
+    res.send({ response })
+  } 
 
 
 }

@@ -55,6 +55,7 @@ register = (req: Request, res: Response, next: NextFunction) => {
       res.status(statusCode.Unauthorized).json({ message: err });
       console.log("err in login API Gateway");
     } else {
+      console.log(result,"ttttttttttttttttttttttt")
       res.cookie("instructorData", result.activationToken, {
         httpOnly: true,
       });

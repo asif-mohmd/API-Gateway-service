@@ -76,10 +76,10 @@ export default class UserController {
   };
 
   login = (req: Request, res: Response, next: NextFunction) => {
-    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii",statusCode.Accepted);
+    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
     UserClient.Login(req.body.loginData, (err: Error, result: any) => {
       const userData = req.cookies.userData;
-      console.log(result,"ggggggggggggggggggggggggggg",result.activationToken)
+      console.log(result,"ggggggggggggggggggggggggggg",result)
       
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
@@ -88,7 +88,7 @@ export default class UserController {
         res.cookie("userData", result.activationToken, {
           httpOnly: true,
         });
-        res.status(statusCode.OK).json(result);
+        res.status(statusCode.OK).json(result); 
       }
     });
   };

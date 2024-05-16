@@ -17,5 +17,9 @@ adminRoute.get("/get-all-instructors",controller.getAllInstructors)
 adminRoute.post("/user-block-unblock",controller.userBlockUnblock)
 adminRoute.post("/instructor-block-unblock",controller.instructorBlockUnblock)
 adminRoute.post("/add/category",controller.addCategory)
+adminRoute.get("/get/categories",controller.getAllCategories)
+
+ 
+
 
 export default adminRoute;

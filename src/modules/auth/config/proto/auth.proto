@@ -2,7 +2,7 @@ syntax = "proto3";
 
 
 service AuthService {
-    rpc TokenRequest (TokenRequest) returns (TokenResponse) {};
+    rpc AuthToken (TokenRequest) returns (TokenResponse) {};
 }
 
 message TokenRequest {

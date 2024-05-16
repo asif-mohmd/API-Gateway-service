@@ -12,6 +12,8 @@ orderRoute.use(express.json()); // Add this line if you want to parse JSON reque
 
 
 orderRoute.post("/checkout/session" ,controller.checkoutOrder );
+orderRoute.get("/purchased/users", controller.getPurchasedUsers)
+
 
 
 export default orderRoute;
