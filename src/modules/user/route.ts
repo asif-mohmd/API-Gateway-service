@@ -15,4 +15,6 @@ userRoute.post("/forgototp", controller.forgotOtp);
 
 userRoute.get("/user/details",controller.onGetUserDetails)
 
+userRoute.post("/create/user/order",controller.createUserCourse)
+
 export default userRoute;

@@ -84,6 +84,7 @@ export default class UserController {
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {
+        console.log(result.userId,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",result,"mmmmmmmmmmmmmmmmmmmmmmmmmm")
         res.cookie("userData", result.activationToken, {
           httpOnly: true,
         });
@@ -134,5 +135,23 @@ export default class UserController {
     } else {
       res.json({ status: false });
     }
-  };
+  }; 
+
+  createUserCourse = (req: Request, res: Response, next: NextFunction) => {
+    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii",req.body.createUserCourse);
+    UserClient.CreateUserCourse(req.body.createUserCourse, (err: Error, result: any) => {
+
+      console.log(result,"ggggggggggggggggggggggggggg")
+      
+      if (err) {
+        res.status(statusCode.Unauthorized).json({ message: err });
+      } else {
+        console.log(result,"mmmmmmmmmmmmmmmmmmmmmmmmmm")
+      
+        res.status(statusCode.OK).json(result);
+      }
+    });
+  }; 
+
+
 }
