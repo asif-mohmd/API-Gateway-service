@@ -19,6 +19,7 @@ courseRoute.post("/delete/course",isValidatedInstructor,controller.deleteCourse)
 courseRoute.get("/get-all-user-courses",isValidatedUser,controller.getAllUserCourse)
 
 courseRoute.post("/user/purchased/courses",isValidatedUser,controller.getUserPurchasedCourses)
+courseRoute.post('/user/add/question', controller.addQuestion)
 
 
 

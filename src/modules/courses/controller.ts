@@ -134,5 +134,24 @@ console.log("usereirueirueilur",req.body)
     res.send({ response })
   } 
 
+  addQuestion = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      console.log("qquestttttion",req.body)
+      const data = req.body;
+      const operation = "add-question";
+      const response: any = await RabbitMQClient.produce(data, operation);
+      const resp = response.content.toString();
+console.log(response,"----------------------")
+      res.status(statusCode.OK).json();
+    } catch (e: any) {
+      next(e);
+    }
+  };
+
 
 }
+ 
