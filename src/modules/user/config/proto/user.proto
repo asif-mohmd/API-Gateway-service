@@ -20,6 +20,16 @@ service UserService {
     rpc UserBlockUnblock (BlockUnblockRequest) returns (BlockUnblockResponse) {};
     rpc GetUserDetails (GetUserDetailsRequest) returns (GetUserDetailsResponse) {};
     rpc CreateUserCourse(CreateUserCourseRequest) returns (CreateUserCourseResponse) {};
+    rpc AvatarURL(AvatarURLRequest) returns (AvatarURLResponse) {};
+}
+
+message AvatarURLRequest {
+    string userId = 1;
+    string avatarURL = 2;
+}
+
+message AvatarURLResponse{
+    bool status = 1;
 }
 
 
@@ -43,6 +53,7 @@ message GetUserDetailsResponse{
     string email = 3;
     bool isVerified = 4;
     repeated string courses = 5;
+    string avatar = 6;
 }
 
 
