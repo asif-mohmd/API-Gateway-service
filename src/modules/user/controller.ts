@@ -94,10 +94,13 @@ export default class UserController {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {
         console.log(result.userId,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",result,"mmmmmmmmmmmmmmmmmmmmmmmmmm")
-        res.cookie("userData", result.activationToken, {
-          httpOnly: false,
-        });
-        res.status(statusCode.OK).json(result);  
+        if(result.status===200){
+          res.cookie("userData", result.activationToken, {
+            httpOnly: false,
+          });
+        }
+      
+        res.json(result);  
       }
     });
   };

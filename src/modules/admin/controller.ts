@@ -93,7 +93,9 @@ userBlockUnblock= (req: Request, res: Response, next: NextFunction) => {
   
 instructorBlockUnblock=(req: Request, res: Response, next: NextFunction) => {
   console.log("admioneeeeeeeeeeeeeeeee",req.body)
-  InstructorClient.InstructorBlockUnblock(req.body.instructorBlockUnblock, (err: Error, result: any) => {
+  const id = req.body.id
+  const isVerified = req.body.isVerified
+  InstructorClient.InstructorBlockUnblock({id,isVerified}, (err: Error, result: any) => {
   
     if (err) {
       res.status(statusCode.Unauthorized).json(result);
