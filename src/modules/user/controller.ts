@@ -17,24 +17,19 @@ export default class UserController {
 
 
   onGetUserDetails = (req: Request, res: Response, next: NextFunction) => {
-    console.log("ooooooooooooooo")
     const userData = req.cookies.userData;
-    console.log(userData)
     const decoded: any = jwt.verify(
       userData,
       process.env.JWT_SECRET || ""
     );
     const userId = decoded.userId
-    console.log(userId,"iiiiiioooooooooooooooooooooooo")
 
     UserClient.GetUserDetails({userId}, (err: Error, result: any) => {
       const userData = req.cookies.userData;
-      console.log(result,"ggggggggggggggggggggggggggg")
       
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {
-       console.log(result,"---------------------------")
         res.status(statusCode.OK).json(result);
       }
     });
@@ -42,13 +37,11 @@ export default class UserController {
 
 
   register = (req: Request, res: Response, next: NextFunction) => {
-    console.log("tttttttttttttttttttttttttt",req.body)
     UserClient.Register(req.body, (err: Error, result: any) => {
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {
         if (result.registerStatus) {
-          console.log("userrrrrrr", result.userData);
           res.cookie("userData", result.userData, {
             httpOnly: true,
           });
@@ -85,15 +78,12 @@ export default class UserController {
   };
 
   login = (req: Request, res: Response, next: NextFunction) => {
-    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii",req.body)
     UserClient.Login(req.body, (err: Error, result: any) => {
       const userData = req.cookies.userData;
-      console.log(result,"ggggggggggggggggggggggggggg",result)
       
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {
-        console.log(result.userId,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",result,"mmmmmmmmmmmmmmmmmmmmmmmmmm")
         if(result.status===200){
           res.cookie("userData", result.activationToken, {
             httpOnly: false,
@@ -106,14 +96,12 @@ export default class UserController {
   };
 
   forgotPassword = (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body.forgotData,"forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     UserClient.ForgotPassword(
       req.body.forgotData,
       (err: Error, result: any) => {
         if (err) {
           res.status(statusCode.Unauthorized).json({ message: err });
         } else {
-          console.log("forrrrrrrrrrrrrrrrrrrrrr",result.forgotData)
           res.cookie("forgotData", result.forgotData, {
             httpOnly: true,
           });
@@ -125,7 +113,6 @@ export default class UserController {
 
   forgotOtp = (req: Request, res: Response, next: NextFunction) => {
     const forgotData = req.cookies.forgotData;
-    console.log(forgotData,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrof")
 
     const decoded: any = jwt.verify(
       forgotData.token,
@@ -137,16 +124,13 @@ export default class UserController {
         email: decoded.userData.email,
         password: decoded.userData.password,
       };
-      console.log(forgotData,"7777777777777777777777777777777777777777777777777777777777777777777777777777777")
       UserClient.PasswordUpdate(forgotData, (err: Error, result: any) => {
         if (err) {
           res.status(statusCode.Unauthorized).json({ message: err });
         } else {
           if (result.passwordUpdate) {
-            console.log(result.passwordUpdate,"tryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
             res.status(statusCode.OK).json({ status: true });
           } else {
-            console.log("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
             res.status(statusCode.Unauthorized).json({ status: false });
           }
         }
@@ -157,23 +141,17 @@ export default class UserController {
   }; 
 
   createUserCourse = (req: Request, res: Response, next: NextFunction) => {
-    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii",req.body.createUserCourse);
     UserClient.CreateUserCourse(req.body.createUserCourse, (err: Error, result: any) => {
-
-      console.log(result,"ggggggggggggggggggggggggggg")
       
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
-      } else {
-        console.log(result,"mmmmmmmmmmmmmmmmmmmmmmmmmm")
-      
+      } else {      
         res.status(statusCode.OK).json(result);
       }
     });
   }; 
 
   uploadAvatar = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiii",req.file);
     let avatarURL = "";
     const randomName = (bytes = 32) =>
     crypto.randomBytes(bytes).toString("hex");
@@ -190,24 +168,17 @@ export default class UserController {
     const command = new PutObjectCommand(params);
     await s3.send(command);
     avatarURL = `https://transcode-genius.s3.ap-south-1.amazonaws.com/${imageName}`;
-
-    console.log(avatarURL,"==================")
  
     const formData = {
       avatarURL : avatarURL,
       userId : req.body.userId
     }
-console.log(formData,"aaaaaaassssssssssssssss")
 
     UserClient.AvatarURL(formData, (err: Error, result: any) => {
-
-      console.log(result,"ggggggggggggggggggggggggggg")
       
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
-      } else {
-        console.log(result,"mmmmmmmmmmmmmmmmmmmmmmmmmm")
-      
+      } else {      
         res.status(statusCode.OK).json(result);
       }
     });

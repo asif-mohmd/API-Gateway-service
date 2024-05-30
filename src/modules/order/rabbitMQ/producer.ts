@@ -9,8 +9,6 @@ export default class Producer {
     async produceMessages(data: any,operation:string) {
 
         const uuid = randomUUID()
-        console.log("the correlation id is :", uuid)
-
 
         this.channel.sendToQueue(config.rabbitMQ.queues.orderQueue, Buffer.from(JSON.stringify(data)), {
             replyTo: this.replayQueueName,
@@ -23,7 +21,6 @@ export default class Producer {
 
         return new Promise((resolve,reject)=>{
             this.eventEmitter.once(uuid,async(data)=>{
-                console.log(JSON.parse(data.content.toString()))
                 const reply = JSON.parse(data.content.toString())
                 resolve(reply);
             })
