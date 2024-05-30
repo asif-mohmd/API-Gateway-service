@@ -42,10 +42,7 @@ class RabbitMQClient {
 
 
             this.producer = new Producer(this.producerChannel, replyQueueName, this.eventEmitter);
-            console.log("00000000")
             this.consumer = new Consumer(this.consumerChannel, replyQueueName, this.eventEmitter)
-            console.log("00000000")
-
             this.consumer.consumeMesssages()
             console.log("00000000")
 

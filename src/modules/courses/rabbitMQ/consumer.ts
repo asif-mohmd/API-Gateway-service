@@ -10,7 +10,7 @@ export default class Consumer {
 
     this.channel.consume(this.replyQueueName, (message: ConsumeMessage | null)=>{
         if (message) {
-            console.log("the replay is ...",JSON.parse(message.content.toString()))
+            // console.log("the replay is ...",JSON.parse(message.content.toString()))
             
             this.eventEmitter.emit(message.properties.correlationId.toString(),message)
         } else {
