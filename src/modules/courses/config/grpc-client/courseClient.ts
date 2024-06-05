@@ -20,7 +20,7 @@ const CourseService = grpc.loadPackageDefinition(packageDefinition).CourseServic
 // as grpc.ServiceClientConstructor : it is need because of typescript
 
 const CourseClient = new CourseService(
-    `0.0.0.0:${process.env.Course_GRPC_PORT}`,
+    `course-service:${process.env.COURSE_GRPC_PORT}`,
      grpc.credentials.createInsecure()
 );
 

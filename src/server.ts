@@ -16,13 +16,13 @@ import healthCheckRouter from "./utils/healthcheck";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5001;
 
 app.use(express.json());
 
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5000',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials:true
 }));
@@ -37,7 +37,7 @@ app.use("/course", courseRoute);
 app.use("/order", orderRoute)
 
 
-app.use("/health", healthCheckRouter);
+// app.use("/health", healthCheckRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

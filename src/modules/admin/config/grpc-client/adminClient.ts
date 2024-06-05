@@ -20,7 +20,7 @@ const AdminService = grpc.loadPackageDefinition(packageDefinition).AdminService 
 // as grpc.ServiceClientConstructor : it is need because of typescript
 
 const AdminClient = new AdminService(
-    `0.0.0.0:${process.env.Admin_GRPC_PORT}`,
+    `admin-service:${process.env.ADMIN_GRPC_PORT}`,
      grpc.credentials.createInsecure()
 );
 

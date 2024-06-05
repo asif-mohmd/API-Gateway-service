@@ -1,4 +1,4 @@
 node_modules
 /.env
-/proto
-/protogen.sh
+/dist
+

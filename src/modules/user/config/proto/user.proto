@@ -21,6 +21,13 @@ service UserService {
     rpc GetUserDetails (GetUserDetailsRequest) returns (GetUserDetailsResponse) {};
     rpc CreateUserCourse(CreateUserCourseRequest) returns (CreateUserCourseResponse) {};
     rpc AvatarURL(AvatarURLRequest) returns (AvatarURLResponse) {};
+    rpc HealthCheck (HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  bool status = 1;
 }
 
 message AvatarURLRequest {

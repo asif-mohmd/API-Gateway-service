@@ -39,7 +39,7 @@ router.get('/', async (_req: Request, res: Response) => {
     checks: {
       database: await checkDatabaseConnection(),
       rabbitMQ: await checkRabbitMQConnection(),
-      userService: await checkServiceHealth('http://user-service-url/health'), // Adjust URLs as needed
+      userService: await checkServiceHealth('http://0.0.0.0:8080/health'), // Adjust URLs as needed
       orderService: await checkServiceHealth('http://order-service-url/health'), // Adjust URLs as needed
     }
   };

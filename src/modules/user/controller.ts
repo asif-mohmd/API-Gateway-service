@@ -17,6 +17,7 @@ export default class UserController {
 
 
   onGetUserDetails = (req: Request, res: Response, next: NextFunction) => {
+    console.log("iiiiiiiiiiiioooooooooooooooooooooooooooooo")
     const userData = req.cookies.userData;
     const decoded: any = jwt.verify(
       userData,
@@ -78,6 +79,7 @@ export default class UserController {
   };
 
   login = (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
     UserClient.Login(req.body, (err: Error, result: any) => {
       const userData = req.cookies.userData;
       
