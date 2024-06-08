@@ -20,7 +20,7 @@ const InstructorService = grpc.loadPackageDefinition(packageDefinition).Instruct
 // as grpc.ServiceClientConstructor : it is need because of typescript
 
 const InstructorClient = new InstructorService(
-    `instructor-service:${process.env.INSTRUCTOR_GRPC_PORT}`,
+    `0.0.0.0:${process.env.INSTRUCTOR_GRPC_PORT}`,
      grpc.credentials.createInsecure()
 );
 

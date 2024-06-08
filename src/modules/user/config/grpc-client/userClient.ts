@@ -26,7 +26,7 @@ const UserService = grpc.loadPackageDefinition(packageDefinition).UserService as
 // );
 
 const UserClient = new UserService(
-    `user-service:${process.env.USER_GRPC_PORT}`,
+    `0.0.0.0:${process.env.USER_GRPC_PORT}`,
      grpc.credentials.createInsecure()
 );
 
