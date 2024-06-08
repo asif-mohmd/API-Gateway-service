@@ -19,7 +19,7 @@ const AuthService = grpc.loadPackageDefinition(packageDefinition).AuthService as
 // as grpc.ServiceClientConstructor : it is need because of typescript
 
 const AuthClient = new AuthService(
-    `auth-service:${process.env.AUTH_GRPC_PORT}`,
+    `0.0.0.0:${process.env.AUTH_GRPC_PORT}`,
      grpc.credentials.createInsecure()
 );
 
