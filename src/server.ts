@@ -26,8 +26,8 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: "http://localhost:5000",
-  // origin: ['https://geniusgrid.online', 'https://www.geniusgrid.online'],
+  // origin: "http://localhost:5000",
+  origin: ['https://geniusgrid.online', 'https://www.geniusgrid.online'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
 }));

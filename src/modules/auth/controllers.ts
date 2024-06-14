@@ -15,6 +15,8 @@ export const isValidatedUser = (req: Request, res: Response, next: NextFunction)
 
 }
 
+
+
 export const isValidatedInstructor = (req: Request, res: Response, next: NextFunction) => {
     let token = req.cookies.instructorData
     AuthClient.AuthToken({token},(err:Error, result: any)=>{

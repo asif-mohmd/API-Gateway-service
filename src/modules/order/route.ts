@@ -13,6 +13,8 @@ orderRoute.use(express.json()); // Add this line if you want to parse JSON reque
 
 orderRoute.post("/checkout/session" ,controller.checkoutOrder );
 orderRoute.get("/purchased/users", controller.getPurchasedUsers)
+orderRoute.get("/order-analysis", controller.orderAnalysis)
+orderRoute.get("/total-order-analysis",controller.totalOrderAnalysis)
 
 
 
