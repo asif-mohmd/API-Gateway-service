@@ -7,6 +7,7 @@ import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
 
 
+
 const packageDefinition = protoLoader.loadSync(path.join(__dirname,"../proto/auth.proto"), {
     keepCase: true,
     longs: String,
