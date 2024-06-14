@@ -22,15 +22,6 @@ ENV PORT=3000
 
 ENV JWT_SECRET=GeniusGrid123
 
-ENV ACCESS_KEY_ID="AKIA4PKKJ3YHLAM2JFFG"
-ENV SECRET_ACCESS_KEY="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"
-ENV S3_BUCKET_REGION="ap-south-1"
-
-ENV S3_BUCKET_NAME='transcode-genius'
-
-ENV STRIPE_SECRET="sk_test_51L06jrSBZHWEgXwyfsLbGCLUrzUGQ01kczGyo3eZQiKmqpGsWRvSHI3Wd6oXch6F2rXH83ikQixLUh7H47DiPpi900jHsBNI8F"
-
-ENV RABBITMQ_CLOUD_URL="amqps://cfgsnaou:uPZA_wp4999whcFxu1jWfpGzYBf2rVzX@puffin.rmq2.cloudamqp.com/cfgsnaou"
 
 
 

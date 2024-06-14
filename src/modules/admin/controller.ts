@@ -7,6 +7,17 @@ import { InstructorClient } from "../instructor/config/grpc-client/instructorCli
 export default class AdminController {
 
 
+  deleteCategory= (req: Request, res: Response, next: NextFunction) => {
+    const categoryName = req.body.categoryName
+    AdminClient.DeleteCategory({categoryName}, (err: Error, result: any) => {
+      if (err) {
+        res.status(statusCode.Unauthorized).json(result);
+      } else {
+        res.status(statusCode.OK).json(result)
+      }
+    });
+  }; 
+
   addCategory= (req: Request, res: Response, next: NextFunction) => {
     const category = req.body.categoryName
     AdminClient.AddCategory(req.body, (err: Error, result: any) => {
@@ -25,7 +36,7 @@ export default class AdminController {
       res.status(statusCode.Unauthorized).json(result);
     } else {
       res.cookie("adminData", result.activationToken, {
-        httpOnly: true,
+        httpOnly: false,
       });
       res.status(statusCode.OK).json(result)
     }
