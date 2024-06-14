@@ -1,0 +1,35 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Create .env file
+      run: |
+        echo "SECRET_ACCESS_KEY=${{ secrets.SECRET_ACCESS_KEY }}" >> .env
+        echo "STRIPE_SECRET=${{ secrets.STRIPE_SECRET }}" >> .env
+        echo "S3_BUCKET_REGION=${{ secrets.S3_BUCKET_REGION }}" >> .env
+        echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+        echo "RABBITMQ_CLOUD_URL=${{ secrets.RABBITMQ_CLOUD_URL }}" >> .env
+        echo "ACCESS_KEY_ID=${{ secrets.ACCESS_KEY_ID }}" >> .env
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: asif9222/api-gateway:latest
