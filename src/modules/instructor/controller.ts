@@ -5,7 +5,7 @@ import { statusCode } from "asif-status-codes-package";
 
 export default class InstructorController {
   register = (req: Request, res: Response, next: NextFunction) => {
-    InstructorClient.Register(req.body.formData, (err: Error, result: any) => {
+    InstructorClient.Register(req.body, (err: Error, result: any) => {
       if (err) {
         res.status(statusCode.Unauthorized).json({ message: err });
       } else {
@@ -55,7 +55,7 @@ export default class InstructorController {
           res.status(statusCode.Unauthorized).json({ message: err });
         } else {
           res.cookie("instructorData", result.activationToken, {
-            httpOnly: true,
+            httpOnly: false,
           });
           res.status(statusCode.OK).json(result);
         }

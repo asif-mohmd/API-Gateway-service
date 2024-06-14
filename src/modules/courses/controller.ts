@@ -128,7 +128,6 @@ export default class courseController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjj")
     const operation = "get-all-user-courses";
     const response = await RabbitMQClient.produce(null, operation);
     res.send({ response });

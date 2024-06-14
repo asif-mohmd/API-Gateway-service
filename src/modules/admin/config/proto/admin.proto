@@ -7,8 +7,17 @@ service AdminService{
     rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse) {};
     rpc AddCategory (AddCategoryRequest) returns (AddCategoryResponse) {};
     rpc GetAllCategories (GetAllCategoriesRequest) returns (GetAllCategoriesResponse){};
+    rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse) {};
 
   }
+
+message DeleteCategoryRequest{
+  string categoryName = 1;
+}
+
+message DeleteCategoryResponse{
+  bool status = 1;
+}
 
  message GetAllCategoriesRequest{
   
