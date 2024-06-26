@@ -16,4 +16,4 @@ jobs:
     - name: delete old docker image
       run:  docker rm -f api-gateway || true
     - name: run docker container
-      run:  docker run -d -p 3000:3000 --name api-gateway asif9222/api-gateway
+      run:  docker run -d -p 3000:3000 --network compose_default --name api-gateway asif9222/api-gateway
