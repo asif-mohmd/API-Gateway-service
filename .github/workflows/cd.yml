@@ -1,0 +1,19 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: [ "CI Pipeline" ]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+    - name: pull docker image
+      run:  docker pull asif9222/api-gateway
+    - name: delete old docker image
+      run:  docker rm -f api-gateway || true
+    - name: run docker container
+      run:  docker run -d -p 3000:3000 --name api-gateway asif9222/api-gateway
